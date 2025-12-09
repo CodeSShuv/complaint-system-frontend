@@ -7,46 +7,30 @@ import { useContext, useEffect } from "react";
 import Dashboard from "../pages/Dashboard";
 import userContext from "../context/UserContext";
 import apiRequest from "../services/apiClient";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 const AppRoutes = () => {
   const { user, setUser } = useContext(userContext);
-  const fetchUser = () => {
-    try {
-      const data = apiRequest({
-        method: "GET",
-        url: "http://localhost:8080/auth/user",
-      });
-      console.log(data);
-    } catch (error) {}
-  };
-  useEffect(() => {
-    fetchUser();
-    return () => {};
-  }, []);
   return (
     <div className="w-screen h-screen pt-16">
       <Routes>
         {/* Public Routes */}
         <Route path={"/"} element={<Homepage />} />
-        {!user ? (
-          <Route path={"/login"} element={<Loginpage />} />
-        ) : (
-          <>
-            <Route path={"/register"} element={<Registerpage />} />
-          </>
-        )}
+        {!user ? <Route path={"/login"} element={<Loginpage />} /> : <></>}
+        <Route path={"/register"} element={<Registerpage />} />
 
         {/* */}
         <Route path={"*"} element={<NotFound />} />
 
         {/* private Route */}
-        {user ? (
+        {/* {user ? (
           <>
-            {" "}
             <Route path={"/user-dashboard"} element={<Dashboard />} />
           </>
         ) : (
           ""
-        )}
+        )} */}
+        <Route path={"/user-dashboard"} element={<Dashboard />} />
       </Routes>
     </div>
   );

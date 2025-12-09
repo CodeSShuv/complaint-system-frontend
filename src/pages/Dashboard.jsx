@@ -1,9 +1,34 @@
 import OverviewCard from "../components/OverviewCard";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import userContext from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
+import apiRequest from "../services/apiClient";
+import ComposeComplain from "../components/ComposeComplain";
 const Dashboard = () => {
   const { user, setUser } = useContext(userContext);
+  const navigate = useNavigate();
 
+  const fetchUser = async () => {
+    try {
+      const data = await apiRequest({
+        method: "GET",
+        url: "http://localhost:8080/auth/user",
+      });
+      console.log(data.data.user);
+      setUser(data.data.user);
+    } catch (error) {
+      navigate("/login");
+    }
+  };
+  useEffect(() => {
+    if (!user) {
+      fetchUser();
+    }
+    return () => {};
+  }, []);
+  if (!user) {
+    return <></>;
+  }
   return (
     <div className="h-screen flex flex-col items-center p-6 gap-5">
       <div className="flex justify-start items-center gap-5 self-start w-screen border-b-2 border-b-gray-200 p-4">
@@ -43,6 +68,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      <ComposeComplain />
     </div>
   );
 };

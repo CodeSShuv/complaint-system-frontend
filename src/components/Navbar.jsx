@@ -1,8 +1,19 @@
-import { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import userContext from "../context/UserContext";
+import Cookies from "js-cookie";
+
 const Navbar = () => {
   const { user, setUser } = useContext(userContext);
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    Cookies.remove("token");
+    navigate("/login");
+    setUser(null);
+  };
+  useEffect(() => {
+    return () => {};
+  }, [user]);
   return (
     <>
       <nav
@@ -38,7 +49,7 @@ const Navbar = () => {
                   Login
                 </NavLink>
               </li>
-              <li>
+              {/* <li>
                 {" "}
                 <NavLink
                   to="/register"
@@ -50,24 +61,37 @@ const Navbar = () => {
                 >
                   Register
                 </NavLink>
-              </li>
+              </li> */}
             </>
           ) : (
-            <></>
+            <>
+              <li>
+                <NavLink
+                  to="/user-dashboard"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-purple-600"
+                      : "text-gray-600 hover:text-purple-600"
+                  }
+                >
+                  User Dashboard
+                </NavLink>
+              </li>
+              <li>
+                <button
+                  onClick={handleLogout}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-purple-600"
+                      : "text-gray-600 hover:text-purple-600"
+                  }
+                >
+                  Logout
+                </button>
+              </li>
+            </>
           )}
-          <li>
-            {" "}
-            <NavLink
-              to="/user-dashboard"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-purple-600"
-                  : "text-gray-600 hover:text-purple-600"
-              }
-            >
-              User Dashboard
-            </NavLink>
-          </li>
+
           {/* <li><a href="#" className="hover:text-blue-600">Contact</a></li> */}
         </ul>
       </nav>
