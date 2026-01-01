@@ -1,10 +1,16 @@
 import OverviewCard from "../components/OverviewCard";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import userContext from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import apiRequest from "../services/apiClient";
 import ComposeComplain from "../components/ComposeComplain";
 const Dashboard = () => {
+  const [complainCount, setComplainCount] = useState({
+    NOfTotal: 0,
+    NOfPending: 0,
+    NOfActive: 0,
+    NOfFulfilled: 0,
+  });
   const { user, setUser } = useContext(userContext);
   const navigate = useNavigate();
 
@@ -14,16 +20,29 @@ const Dashboard = () => {
         method: "GET",
         url: "http://localhost:8080/auth/user",
       });
-      console.log(data.data.user);
+      // console.log(data.data.user);
       setUser(data.data.user);
+      console.log("User set");
+      // fetching the number of complains according to their states after updating the user
     } catch (error) {
       navigate("/login");
     }
+  };
+
+  const getComplainCount = async () => {
+    let counts = await apiRequest({
+      method: "GET",
+      url: "http://localhost:8080/complain/count",
+    });
+    console.log(counts);
+    setComplainCount(counts);
   };
   useEffect(() => {
     if (!user) {
       fetchUser();
     }
+    getComplainCount();
+
     return () => {};
   }, []);
   if (!user) {
@@ -54,17 +73,25 @@ const Dashboard = () => {
           {/* <hr /> */}
           <div className="card-containers p-3 flex gap-3">
             <OverviewCard
-              number={0}
+              number={complainCount.NOfTotal}
               heading={"Total Complaint"}
               color={"white"}
             />
             <OverviewCard
-              number={0}
+              number={complainCount.NOfActive}
               heading={"Action Active"}
               color={"yellow"}
             />
-            <OverviewCard number={0} heading={"Action Pending"} color={"red"} />
-            <OverviewCard number={0} heading={"Fulfilled"} color={"green"} />
+            <OverviewCard
+              number={complainCount.NOfPending}
+              heading={"Action Pending"}
+              color={"red"}
+            />
+            <OverviewCard
+              number={complainCount.NOfFulfilled}
+              heading={"Fulfilled"}
+              color={"green"}
+            />
           </div>
         </div>
       </div>

@@ -4,26 +4,39 @@ import Button from "./Button";
 import userContext from "../context/UserContext";
 import apiRequest from "../services/apiClient";
 import { useNavigate } from "react-router-dom";
+import alertContext from "../context/AlertContext.jsx";
 const LoginForm = () => {
   const navigate = useNavigate();
   const { user, setUser } = useContext(userContext);
+  const alertContextOptions = useContext(alertContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const handleLogin = async (e) => {
     e.preventDefault();
-    let dataModel = {
-      email: email,
-      password: password,
-    };
-    let data = await apiRequest({
-      method: "POST",
-      url: "/auth/login",
-      data: dataModel,
-      params: null,
-    });
+    try {
+      let dataModel = {
+        email: email,
+        password: password,
+      };
+      let data = await apiRequest({
+        method: "POST",
+        url: "/auth/login",
+        data: dataModel,
+        params: null,
+      });
 
-    setUser(data.data);
-    navigate("/user-dashboard");
+      setUser(data.data);
+      alertContextOptions.setAlertOptions({
+        msg: "User Logged In.",
+        type: "success",
+      });
+      navigate("/user-dashboard");
+    } catch (e) {
+      alertContextOptions.setAlertOptions({
+        msg: "Something Went Wrong",
+        type: "error",
+      });
+    }
   };
   return (
     <form
