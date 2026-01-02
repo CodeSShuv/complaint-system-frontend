@@ -84,6 +84,18 @@ const Navbar = () => {
                 </NavLink>
               </li>
               <li>
+                <NavLink
+                  to="/complains"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-purple-600"
+                      : "text-gray-600 hover:text-purple-600"
+                  }
+                >
+                  Complains
+                </NavLink>
+              </li>
+              <li>
                 <button
                   onClick={handleLogout}
                   className={({ isActive }) =>

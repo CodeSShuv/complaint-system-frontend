@@ -1,7 +1,6 @@
 import OverviewCard from "../components/OverviewCard";
 import { useContext, useEffect, useState } from "react";
 import userContext from "../context/UserContext";
-import { useNavigate } from "react-router-dom";
 import apiRequest from "../services/apiClient";
 import ComposeComplain from "../components/ComposeComplain";
 const Dashboard = () => {
@@ -12,22 +11,6 @@ const Dashboard = () => {
     NOfFulfilled: 0,
   });
   const { user, setUser } = useContext(userContext);
-  const navigate = useNavigate();
-
-  const fetchUser = async () => {
-    try {
-      const data = await apiRequest({
-        method: "GET",
-        url: "http://localhost:8080/auth/user",
-      });
-      // console.log(data.data.user);
-      setUser(data.data.user);
-      console.log("User set");
-      // fetching the number of complains according to their states after updating the user
-    } catch (error) {
-      navigate("/login");
-    }
-  };
 
   const getComplainCount = async () => {
     let counts = await apiRequest({
@@ -38,9 +21,6 @@ const Dashboard = () => {
     setComplainCount(counts);
   };
   useEffect(() => {
-    if (!user) {
-      fetchUser();
-    }
     getComplainCount();
 
     return () => {};

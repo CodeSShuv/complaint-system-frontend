@@ -5,12 +5,15 @@ import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 import AlertState from "./context/states/AlertState.jsx";
 import UserState from "./context/states/UserState.jsx";
+import ComplainDataState from "./context/states/ComplainDataState.jsx";
 createRoot(document.getElementById("root")).render(
   <BrowserRouter basename="/">
-    <AlertState>
-      <UserState>
-        <App />
-      </UserState>
-    </AlertState>
+    <ComplainDataState>
+      <AlertState>
+        <UserState>
+          <App />
+        </UserState>
+      </AlertState>
+    </ComplainDataState>
   </BrowserRouter>
 );

@@ -3,12 +3,11 @@ import Loginpage from "../pages/Loginpage";
 import NotFound from "../pages/NotFound";
 import Registerpage from "../pages/Registerpage";
 import { Routes, Route } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import Dashboard from "../pages/Dashboard";
 import userContext from "../context/UserContext";
-import apiRequest from "../services/apiClient";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+
+import View from "../pages/View";
 const AppRoutes = () => {
   const { user, setUser } = useContext(userContext);
   return (
@@ -16,7 +15,14 @@ const AppRoutes = () => {
       <Routes>
         {/* Public Routes */}
         <Route path={"/"} element={<Homepage />} />
-        {!user ? <Route path={"/login"} element={<Loginpage />} /> : <></>}
+        {!user ? (
+          <Route path={"/login"} element={<Loginpage />} />
+        ) : (
+          <>
+            <Route path={"/user-dashboard"} element={<Dashboard />} />
+            <Route path={"/complains"} element={<View />} />
+          </>
+        )}
         <Route path={"/register"} element={<Registerpage />} />
 
         {/* */}
@@ -30,7 +36,6 @@ const AppRoutes = () => {
         ) : (
           ""
         )} */}
-        <Route path={"/user-dashboard"} element={<Dashboard />} />
       </Routes>
     </div>
   );
