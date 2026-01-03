@@ -8,34 +8,43 @@ import Dashboard from "../pages/Dashboard";
 import userContext from "../context/UserContext";
 
 import View from "../pages/View";
+import PublicRoute from "./PublicRoute";
+import ProtectedRoute from "./ProtectedRoute";
 const AppRoutes = () => {
-  const { user, setUser } = useContext(userContext);
   return (
     <div className="w-screen h-screen pt-16">
       <Routes>
-        {/* Public Routes */}
         <Route path={"/"} element={<Homepage />} />
-        {!user ? (
-          <Route path={"/login"} element={<Loginpage />} />
-        ) : (
-          <>
-            <Route path={"/user-dashboard"} element={<Dashboard />} />
-            <Route path={"/complains"} element={<View />} />
-          </>
-        )}
+
+        <Route
+          path={"/login"}
+          element={
+            <PublicRoute>
+              <Loginpage />
+            </PublicRoute>
+          }
+        />
+
+        <Route
+          path={"/user-dashboard"}
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={"/complains"}
+          element={
+            <ProtectedRoute>
+              <View />
+            </ProtectedRoute>
+          }
+        />
+
         <Route path={"/register"} element={<Registerpage />} />
 
-        {/* */}
         <Route path={"*"} element={<NotFound />} />
-
-        {/* private Route */}
-        {/* {user ? (
-          <>
-            <Route path={"/user-dashboard"} element={<Dashboard />} />
-          </>
-        ) : (
-          ""
-        )} */}
       </Routes>
     </div>
   );
