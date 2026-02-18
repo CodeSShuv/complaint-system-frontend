@@ -14,7 +14,7 @@ const Alert = () => {
     let timer = setTimeout(() => {
       setHidden(true);
     }, 3000);
-    console.log("see");
+    // console.log("see");
     return () => {
       console.log("Clear");
       clearTimeout(timer);
@@ -22,9 +22,8 @@ const Alert = () => {
   }, [alertOptions]);
   return (
     <div
-      className={`absolute top-6 ${
-        !hidden ? "block" : "hidden"
-      } px-4 py-3  text-sm rounded-lg shadow-xl translate-x-10 transition-all duration-300
+      className={`absolute top-6 ${!hidden ? "block" : "hidden"
+        } px-4 py-3  text-sm rounded-lg shadow-xl translate-x-10 transition-all duration-300
         ${styles[alertOptions.type]}`}
     >
       {alertOptions.msg ? alertOptions.msg : ""}

@@ -10,9 +10,11 @@ import userContext from "../context/UserContext";
 import View from "../pages/View";
 import PublicRoute from "./PublicRoute";
 import ProtectedRoute from "./ProtectedRoute";
+import AdminPanel from "../admin/AdminPanel";
+import VerifyEmail from "../pages/EmailVerificationPage";
 const AppRoutes = () => {
   return (
-    <div className="w-screen h-screen pt-16">
+    <>
       <Routes>
         <Route path={"/"} element={<Homepage />} />
 
@@ -34,7 +36,7 @@ const AppRoutes = () => {
           }
         />
         <Route
-          path={"/complains"}
+          path={"/complaints"}
           element={
             <ProtectedRoute>
               <View />
@@ -42,11 +44,21 @@ const AppRoutes = () => {
           }
         />
 
+        <Route
+          path={"/admin"}
+          element={
+            <ProtectedRoute>
+              <AdminPanel />
+            </ProtectedRoute>
+          }
+        />
+
         <Route path={"/register"} element={<Registerpage />} />
 
         <Route path={"*"} element={<NotFound />} />
+        <Route path="/verify-email/:token" element={<VerifyEmail />} />
       </Routes>
-    </div>
+    </>
   );
 };
 

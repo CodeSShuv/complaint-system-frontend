@@ -18,103 +18,46 @@ const Navbar = () => {
     });
   };
   useEffect(() => {
-    return () => {};
+    return () => { };
   }, [user]);
+  const links = {
+    visitor: [
+      { name: "login", path: '/login' },
+      { name: "register", path: "/register" }
+    ],
+    student: [
+      { name: "Dashboard", path: "/user-dashboard" },
+      { name: "My Complaints", path: "/complaints" },
+      // { name: "New Complaint", path: "/create" },
+    ],
+    admin: [
+      { name: "Admin Panel", path: "/admin" },
+      { name: "All Complaints", path: "/all" },
+      { name: "Departments", path: "/departments" },
+      { name: "Users", path: "/users" },
+    ],
+    staff: [
+      { name: "Assigned Complaints", path: "/assigned" },
+    ],
+  };
+  // console.log("Navbar Rendered. User:", user);
   return (
     <>
-      <nav
-        className="flex items-center justify-between px-6 py-4 shadow fixed w-screen"
-        style={{ backgroundColor: "#0f172a" }}
-      >
-        <div className="text-2xl font-bold text-white">CMS</div>
-
-        <ul className="flex space-x-6 text-gray-700 font-medium">
-          <li>
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-purple-600 rounded-md"
-                  : "text-gray-600 hover:text-purple-600"
-              }
-            >
-              Home
+      <nav className="bg-slate-700 text-white p-4 flex justify-between">
+        <div className="font-bold text-lg">ComplaintMS</div>
+        <div className="flex gap-4">
+          {links[user != null ? user.role.toLowerCase() : 'visitor']?.map((link, index) => (
+            <NavLink key={index} to={link.path}>
+              {link.name}
             </NavLink>
-          </li>
-          {!user ? (
-            <>
-              <li>
-                <NavLink
-                  to="/login"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-purple-600"
-                      : "text-gray-600 hover:text-purple-600"
-                  }
-                >
-                  Login
-                </NavLink>
-              </li>
-              {/* <li>
-                {" "}
-                <NavLink
-                  to="/register"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-purple-600"
-                      : "text-gray-600 hover:text-purple-600"
-                  }
-                >
-                  Register
-                </NavLink>
-              </li> */}
-            </>
-          ) : (
-            <>
-              <li>
-                <NavLink
-                  to="/user-dashboard"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-purple-600"
-                      : "text-gray-600 hover:text-purple-600"
-                  }
-                >
-                  User Dashboard
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/complains"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-purple-600"
-                      : "text-gray-600 hover:text-purple-600"
-                  }
-                >
-                  Complains
-                </NavLink>
-              </li>
-              <li>
-                <button
-                  onClick={handleLogout}
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-purple-600"
-                      : "text-gray-600 hover:text-purple-600"
-                  }
-                >
-                  Logout
-                </button>
-              </li>
-            </>
-          )}
-
-          {/* <li><a href="#" className="hover:text-blue-600">Contact</a></li> */}
-        </ul>
+          ))}
+          <button className="text-red-300" onClick={handleLogout}>Logout</button>
+        </div>
       </nav>
     </>
   );
 };
+
+
 
 export default Navbar;

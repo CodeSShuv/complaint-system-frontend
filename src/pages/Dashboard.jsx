@@ -1,8 +1,9 @@
 import OverviewCard from "../components/OverviewCard";
 import { useContext, useEffect, useState } from "react";
 import userContext from "../context/UserContext";
-import apiRequest from "../services/apiClient";
+
 import ComposeComplain from "../components/ComposeComplain";
+import { getComplainCounts } from "../api/complain";
 const Dashboard = () => {
   const [complainCount, setComplainCount] = useState({
     NOfTotal: 0,
@@ -13,70 +14,93 @@ const Dashboard = () => {
   const { user, setUser } = useContext(userContext);
 
   const getComplainCount = async () => {
-    let counts = await apiRequest({
-      method: "GET",
-      url: "http://localhost:8080/complain/count",
-    });
-    console.log(counts);
+    let counts = await getComplainCounts();
+    // console.log(counts);
+    if (!counts) {
+      console.log("Failed to fetch complain counts.");
+      return;
+    }
     setComplainCount(counts);
   };
   useEffect(() => {
+    // if(complaintCount.NOfTotal === )
     getComplainCount();
-
-    return () => {};
+    // console.log("User:", user);
+    return () => { };
   }, []);
   if (!user) {
     return <></>;
   }
   return (
-    <div className="h-screen flex flex-col items-center p-6 gap-5">
-      <div className="flex justify-start items-center gap-5 self-start w-screen border-b-2 border-b-gray-200 p-4">
-        <div className="flex justify-center items-center w-50 h-50 rounded-full">
-          <img className="object-cover" src="/public/user.png" alt="" />
+    <div className="min-h-screen flex flex-col p-4 sm:p-6 gap-6 bg-gray-50">
+      {/* Profile Section */}
+      <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 w-full border-b border-gray-200 pb-6">
+
+        {/* Profile Image */}
+        <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden">
+          <img
+            className="w-full h-full object-cover"
+            src="/user.png"
+            alt="User"
+          />
         </div>
-        <div>
-          {/* full name */}
-          <div className="fullname font-semibold text-2xl">
-            <span className="fname">{user ? user.firstName : ""}</span>{" "}
-            <span className="lname">{user ? user.lastName : ""}</span>
+
+        {/* User Info */}
+        <div className="text-center sm:text-left">
+          <div className="font-semibold text-xl sm:text-2xl">
+            {user?.firstName} {user?.lastName}
           </div>
-          {/* institution name */}
-          <div className="instition text-gray-500">ABC Company</div>
-          <div className="role text-gray-500 text-md">Admin</div>
-        </div>
-      </div>
-      <div className="">
-        <div>
-          <h3 className="font-semibold text-xl text-left w-screen pl-4">
-            Overview
-          </h3>
-          {/* <hr /> */}
-          <div className="card-containers p-3 flex gap-3">
-            <OverviewCard
-              number={complainCount.NOfTotal}
-              heading={"Total Complaint"}
-              color={"white"}
-            />
-            <OverviewCard
-              number={complainCount.NOfActive}
-              heading={"Action Active"}
-              color={"yellow"}
-            />
-            <OverviewCard
-              number={complainCount.NOfPending}
-              heading={"Action Pending"}
-              color={"red"}
-            />
-            <OverviewCard
-              number={complainCount.NOfFulfilled}
-              heading={"Fulfilled"}
-              color={"green"}
-            />
+
+          {/* <div className="text-gray-500 text-sm sm:text-base">
+            ABC Company
+          </div> */}
+
+          <div className="text-gray-500 text-sm">
+            {user?.role}
           </div>
         </div>
       </div>
-      <ComposeComplain />
+
+      {/* Overview Section */}
+      <div className="w-full">
+        <h3 className="font-semibold text-lg sm:text-xl mb-4">
+          Overview
+        </h3>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <OverviewCard
+            number={complainCount.NOfTotal}
+            heading="Total Complaint"
+            color="white"
+          />
+
+          <OverviewCard
+            number={complainCount.NOfActive}
+            heading="Action Active"
+            color="yellow"
+          />
+
+          <OverviewCard
+            number={complainCount.NOfPending}
+            heading="Action Pending"
+            color="red"
+          />
+
+          <OverviewCard
+            number={complainCount.NOfFulfilled}
+            heading="Fulfilled"
+            color="green"
+          />
+        </div>
+      </div>
+
+      {/* Compose Section */}
+      <div className="w-full">
+        <ComposeComplain />
+      </div>
     </div>
+
+
   );
 };
 

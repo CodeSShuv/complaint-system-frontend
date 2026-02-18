@@ -3,34 +3,34 @@ import AppRoutes from "./routes/AppRoutes";
 import Alert from "./components/Alert";
 import { useContext, useEffect, useState } from "react";
 import userContext from "./context/UserContext";
-import apiRequest from "./services/apiClient.js";
+// import alertContext from "./context/AlertContext";
+import { useNavigate } from "react-router-dom";
+import { fetchUser } from "./api/auth.js";
 const App = () => {
   const { user, setUser } = useContext(userContext);
   const [authCheck, setAuthCheck] = useState(false);
-  const fetchUser = async () => {
-    try {
-      const data = await apiRequest({
-        method: "GET",
-        url: "http://localhost:8080/auth/user",
-      });
+  const navigate = useNavigate();
 
-      console.log(data.data.user);
-      setUser(data.data.user);
-    } catch (error) {
-      setUser(null);
-      console.log(error);
-    } finally {
-      setAuthCheck(true);
-    }
-  };
   useEffect(() => {
-    console.log(123);
-    fetchUser();
-  }, []);
+    if (user === null) {
+      fetchUser().then((user) => {
+        if (user) {
+          setUser(user);
+        }
+        setAuthCheck(true);
+      });
+    } else {
+      if (user.role === 'Admin') {
+        navigate("/admin");
+      } else if (user.role === 'Staff' || user.role === 'Student') {
+        navigate("/user-dashboard");
+      }
+    }
+  }, [user]);
   if (!authCheck) return null;
   return (
     <>
-      <Navbar />
+      {user != null ? user.role === 'Admin' ? "" : <Navbar /> : <Navbar />}
       <Alert />
       <AppRoutes />
     </>

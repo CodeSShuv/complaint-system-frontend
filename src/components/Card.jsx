@@ -1,30 +1,55 @@
+import { useContext } from "react";
+import userContext from "../context/UserContext";
+
 const Card = ({ title, body, status, category }) => {
-  let styles = {
-    fulfilled: "bg-emerald-50 text-emerald-800 border-emerald-200",
-    pending: "bg-red-50 text-red-800 border-red-200",
-    active: "bg-amber-50 text-amber-800 border-amber-200",
+  const { user } = useContext(userContext);
+  const statusStyles = {
+    fulfilled: "bg-emerald-100 text-emerald-800 border border-emerald-200",
+    pending: "bg-red-100 text-red-800 border border-red-200",
+    active: "bg-amber-100 text-amber-800 border border-amber-200",
   };
+
   return (
-    <div class="max-w-sm rounded-2xl border-[#0f172a] bg-white p-6 shadow-lg transition hover:shadow-xl hover:-translate-y-1">
-      <div class="h-full rounded-2xl bg-white p-6 transition hover:scale-[1.02]">
-        <div>
+    <div className="w-full sm:w-[320px] md:w-[360px] lg:w-[400px] rounded-2xl bg-white border border-gray-200 shadow-md p-5 transition hover:shadow-xl hover:-translate-y-1">
+      <div className="flex flex-col h-full space-y-3">
+        {/* Badges */}
+        <div className="flex flex-wrap gap-2">
           <span
-            class={`inline-block rounded-full ${styles[status]} px-3 py-1 text-xs font-semibold text-purple-600`}
+            className={`${statusStyles[status]} px-3 py-1 text-xs font-semibold rounded-full`}
           >
             {status}
           </span>
-          <span
-            class={`inline-block rounded-full px-3 py-1 text-xs font-semibold text-gray-600`}
-          >
+          <span className="px-3 py-1 text-xs font-semibold text-gray-600 bg-gray-100 rounded-full">
             {category}
           </span>
         </div>
 
-        <h2 class="mt-4 text-xl font-bold text-gray-800">{title}</h2>
+        {/* Title */}
+        <h2 className="text-lg md:text-xl font-bold text-gray-800">{title}</h2>
 
-        <p class="mt-2 text-sm text-gray-600">{body}</p>
+        {/* Body (truncated) */}
+        <p className="text-sm text-gray-600">
+          {body.length > 50 ? body.slice(0, 50) + "..." : body}
+        </p>
+
+        {/* Action links */}
+        <div className="flex items-center gap-4 mt-2">
+          <a
+            href={`/complain/${user.userId}`} // navigate to full complaint page
+            className="text-sm text-indigo-600 hover:text-indigo-800 font-medium transition"
+          >
+            View
+          </a>
+          <button
+            href={`/complain/edit/${user.userId}`} // navigate to edit complaint page
+            className="text-sm text-indigo-600 hover:text-indigo-800 font-medium transition"
+          >
+            Delete
+          </button>
+        </div>
       </div>
     </div>
+
   );
 };
 
