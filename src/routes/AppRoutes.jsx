@@ -6,15 +6,29 @@ import { Routes, Route } from "react-router-dom";
 import { useContext } from "react";
 import Dashboard from "../pages/Dashboard";
 import userContext from "../context/UserContext";
-
+import RoleRoute from "./RoleRoute";
 import View from "../pages/View";
 import PublicRoute from "./PublicRoute";
 import ProtectedRoute from "./ProtectedRoute";
 import AdminPanel from "../admin/AdminPanel";
 import VerifyEmail from "../pages/EmailVerificationPage";
+import ComplaintDetail from "../pages/ComplaintDetail";
 const AppRoutes = () => {
+  const { user } = useContext(userContext);
+  // if (user === null) {
+  //   return (
+  //     <Routes>
+  //       <Route path={"/"} element={<Homepage />} />
+  //       <Route path={"/login"} element={<Loginpage />} />
+  //       <Route path={"/register"} element={<Registerpage />} />
+  //       <Route path={"*"} element={<NotFound />} />
+  //       <Route path="/verify-email/:token" element={<VerifyEmail />} />
+  //     </Routes>
+  //   );
+  // }
   return (
     <>
+
       <Routes>
         <Route path={"/"} element={<Homepage />} />
 
@@ -27,12 +41,13 @@ const AppRoutes = () => {
           }
         />
 
+
         <Route
           path={"/user-dashboard"}
           element={
-            <ProtectedRoute>
+            <RoleRoute allowedRoles={["Student", "Admin"]} user={user}>
               <Dashboard />
-            </ProtectedRoute>
+            </RoleRoute>
           }
         />
         <Route
@@ -43,13 +58,12 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
-
         <Route
           path={"/admin"}
           element={
-            <ProtectedRoute>
+            <RoleRoute allowedRoles={["Admin", "Staff"]} user={user}>
               <AdminPanel />
-            </ProtectedRoute>
+            </RoleRoute>
           }
         />
 
@@ -57,6 +71,12 @@ const AppRoutes = () => {
 
         <Route path={"*"} element={<NotFound />} />
         <Route path="/verify-email/:token" element={<VerifyEmail />} />
+        <Route path="/complaint/:complaintId" element={
+          <ProtectedRoute>
+
+            <ComplaintDetail />
+          </ProtectedRoute>
+        } />
       </Routes>
     </>
   );

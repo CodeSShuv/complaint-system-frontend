@@ -1,16 +1,16 @@
 import { useContext } from "react";
 import userContext from "../context/UserContext";
 
-const Card = ({ title, body, status, category }) => {
+const Card = ({ title, body, status, category, complaintId, deleteComplaint }) => {
   const { user } = useContext(userContext);
   const statusStyles = {
     fulfilled: "bg-emerald-100 text-emerald-800 border border-emerald-200",
     pending: "bg-red-100 text-red-800 border border-red-200",
     active: "bg-amber-100 text-amber-800 border border-amber-200",
   };
-
+  //transition hover:shadow-xl hover:-translate-y-1
   return (
-    <div className="w-full sm:w-[320px] md:w-[360px] lg:w-[400px] rounded-2xl bg-white border border-gray-200 shadow-md p-5 transition hover:shadow-xl hover:-translate-y-1">
+    <div className="w-full sm:w-[320px] md:w-[360px] lg:w-[400px] rounded-2xl bg-white border border-gray-200 shadow-md p-5">
       <div className="flex flex-col h-full space-y-3">
         {/* Badges */}
         <div className="flex flex-wrap gap-2">
@@ -32,20 +32,26 @@ const Card = ({ title, body, status, category }) => {
           {body.length > 50 ? body.slice(0, 50) + "..." : body}
         </p>
 
-        {/* Action links */}
+        {/* {console.log("Complaint ID in Card:", complaintId)} */}
         <div className="flex items-center gap-4 mt-2">
           <a
-            href={`/complain/${user.userId}`} // navigate to full complaint page
+            target="_blank"
+            href={`/complaint/${complaintId}`} // navigate to full complaint page
             className="text-sm text-indigo-600 hover:text-indigo-800 font-medium transition"
           >
             View
           </a>
-          <button
-            href={`/complain/edit/${user.userId}`} // navigate to edit complaint page
+          {console.log("User Role in Card:", user?.role)}
+          {!(user?.role === "Admin" || user?.role === "Staff") ? <button
+            // navigate to edit complaint page
+            onClick={() => {
+              let id = complaintId;
+              deleteComplaint(complaintId);
+            }}
             className="text-sm text-indigo-600 hover:text-indigo-800 font-medium transition"
           >
             Delete
-          </button>
+          </button> : <></>}
         </div>
       </div>
     </div>

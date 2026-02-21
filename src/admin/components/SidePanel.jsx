@@ -14,6 +14,12 @@ export default function SidePanel({
       label: "Dashboard",
       icon: "📊",
     },
+
+    {
+      key: "complaints",
+      label: "Complaints",
+      icon: "📊",
+    },
     {
       key: "staff",
       label: "Manage Staff",

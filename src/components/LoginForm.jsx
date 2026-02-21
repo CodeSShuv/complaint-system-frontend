@@ -3,8 +3,9 @@ import userContext from "../context/UserContext";
 import { loginUser } from "../api/auth.js";
 import { Link } from "react-router-dom";
 import alertContext from "../context/AlertContext.jsx";
+import { useNavigate } from "react-router-dom";
 const LoginForm = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const { user, setUser } = useContext(userContext);
   const alertContextOptions = useContext(alertContext);
   const [formData, setFormData] = useState({
@@ -29,8 +30,15 @@ const LoginForm = () => {
         msg: "User Logged In.",
         type: "success",
       });
-      // console.log(user);
 
+      if (user.role === 'Admin' || user.role === 'Staff') {
+
+
+        navigate("/admin");
+      }
+      // else if (user.role === 'Student') {
+      //   navigate("/user-dashboard");
+      // }
     } catch (e) {
       alertContextOptions.setAlertOptions({
         msg: e.msg,
