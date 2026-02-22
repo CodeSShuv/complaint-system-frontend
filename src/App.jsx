@@ -20,11 +20,11 @@ const App = () => {
       });
     } else {
       if (window.location.pathname === "/login" || window.location.pathname === "/register") {
-        if (user.role === 'Admin') {
+        if (user.role === 'Admin' || user.role === 'Super Admin') {
 
           navigate("/admin");
         }
-        else if (user.role === 'Staff' || user.role === 'Student') {
+        else if (user.role === 'Student') {
           navigate("/user-dashboard");
         }
       }
@@ -33,7 +33,7 @@ const App = () => {
   if (!authCheck) return null;
   return (
     <>
-      {user != null ? user?.role === 'Admin' ? "" : <Navbar /> : <Navbar />}
+      <Navbar />
       <Alert />
       <AppRoutes />
     </>

@@ -19,6 +19,7 @@ export const fetchComplainById = async (complaintId) => {
       method: "GET",
       url: `/complaint/${complaintId}`,
     });
+
     return data.data;
 
   } catch (error) {
@@ -69,3 +70,5 @@ export const deleteComplainById = async (complaintId) => {
     return null;
   }
 }
+
+

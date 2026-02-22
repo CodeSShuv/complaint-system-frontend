@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import ManageStaff from "./pages/ManageStaff.jsx";
 import View from "../pages/View.jsx";
 import userContext from "../context/UserContext";
+import ManageUsers from "./pages/ManageUsers.jsx";
 export default function AdminPanel() {
   const [activePage, setActivePage] = useState("dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -18,6 +19,8 @@ export default function AdminPanel() {
         return <ManageStaff />;
       case "complaints":
         return <View />
+      case "user":
+        return <ManageUsers />
       default:
         return <Dashboard />;
     }
@@ -34,7 +37,7 @@ export default function AdminPanel() {
     }
   }, [user]);
   return (
-    typeof user?.role === "string" && user?.role === "Admin" ? (
+    typeof user?.role === "string" && user?.role === "Admin" || user?.role === "Super Admin" ? (
 
       <div className="flex min-h-screen font-sans bg-gradient-to-br from-slate-100 via-slate-200 to-slate-300">
 

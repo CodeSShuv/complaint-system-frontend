@@ -76,7 +76,7 @@ const Dashboard = () => {
 
           <OverviewCard
             number={complainCount.NOfActive}
-            heading="Action Active"
+            heading="In Progress"
             color="yellow"
           />
 

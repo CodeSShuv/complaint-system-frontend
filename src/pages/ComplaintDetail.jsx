@@ -2,8 +2,12 @@ import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { fetchComplainById } from "../api/complain";
 import userContext from "../context/UserContext";
+import { updateComplaintStatus } from "../api/admin";
+import alertContext from "../context/AlertContext";
 
 export default function ComplaintDetail() {
+  let alertContextOptions = useContext(alertContext);
+
   let { complaintId } = useParams();
   const { user } = useContext(userContext);
   const [complaint, setComplaint] = useState(null);
@@ -20,13 +24,28 @@ export default function ComplaintDetail() {
   const [status, setStatus] = useState(complaint?.status ?? "Pending");
   const [remarks, setRemarks] = useState("");
 
-  const handleSubmit = () => {
-    console.log("New Status:", status);
-    console.log("Admin Remarks:", remarks);
+  const handleSubmit = async () => {
+    try {
+      let res = await updateComplaintStatus(complaintId, status, remarks);
+      alertContextOptions.setAlertOptions({
+        msg: "Status Updated successfully.",
+        type: "success",
+      });
 
-    // Later:
-    // send status + remarks to backend
-    // backend sends email to student
+      setComplaint((prev) => ({ ...prev, status: res.status }));
+      setRemarks("");
+    } catch (error) {
+      alertContextOptions.setAlertOptions({
+        msg: error.msg || "Failed to update complaint status.",
+        type: "error",
+      });
+    }
+
+  };
+  const statusStyles = {
+    Fulfilled: "bg-emerald-100 text-emerald-800 border border-emerald-200",
+    Pending: "bg-red-100 text-red-800 border border-red-200",
+    Active: "bg-amber-100 text-amber-800 border border-amber-200",
   };
 
   return (
@@ -49,8 +68,14 @@ export default function ComplaintDetail() {
             </div>
 
             {/* Category Bubble */}
-            <span className="self-start md:self-auto bg-slate-200 text-slate-700 text-sm px-3 py-1 rounded-full font-medium">
-              {complaint.category}
+            <span>
+
+              <span className="self-start md:self-auto bg-slate-200 text-slate-700 text-sm px-3 py-1 rounded-full font-medium">
+                {complaint.category}
+              </span>
+              <span className={`self-start md:self-auto ${statusStyles[complaint.status]} text-sm px-3 py-1 rounded-full font-medium`}>
+                {complaint.status}
+              </span>
             </span>
           </div>
 
@@ -74,7 +99,7 @@ export default function ComplaintDetail() {
           </div>
 
 
-          {user.role === "Admin" ? <div className="mt-8 border-t border-slate-200 pt-6">
+          {user.role === "Admin" || user.role === "Super Admin" ? <div className="mt-8 border-t border-slate-200 pt-6">
 
             <h3 className="text-lg font-semibold text-slate-800 mb-4">
               Admin Action
@@ -110,6 +135,7 @@ export default function ComplaintDetail() {
                 onChange={(e) => setRemarks(e.target.value)}
                 placeholder="Write remarks that will be sent to the student..."
                 className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-400 resize-none"
+                required={true}
               />
             </div>
 

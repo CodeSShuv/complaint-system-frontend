@@ -25,6 +25,11 @@ export default function SidePanel({
       label: "Manage Staff",
       icon: "👥",
     },
+    {
+      key: "user",
+      label: "Manage User",
+      icon: "👥",
+    }
   ];
 
   return (

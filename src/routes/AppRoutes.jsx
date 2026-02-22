@@ -13,6 +13,8 @@ import ProtectedRoute from "./ProtectedRoute";
 import AdminPanel from "../admin/AdminPanel";
 import VerifyEmail from "../pages/EmailVerificationPage";
 import ComplaintDetail from "../pages/ComplaintDetail";
+import ChangePassword from "../pages/ChangePassword";
+import ForgotPassword from "../pages/ForgotPassword";
 const AppRoutes = () => {
   const { user } = useContext(userContext);
   // if (user === null) {
@@ -45,7 +47,7 @@ const AppRoutes = () => {
         <Route
           path={"/user-dashboard"}
           element={
-            <RoleRoute allowedRoles={["Student", "Admin"]} user={user}>
+            <RoleRoute allowedRoles={["Student"]} user={user}>
               <Dashboard />
             </RoleRoute>
           }
@@ -61,7 +63,7 @@ const AppRoutes = () => {
         <Route
           path={"/admin"}
           element={
-            <RoleRoute allowedRoles={["Admin", "Staff"]} user={user}>
+            <RoleRoute allowedRoles={["Super Admin", "Admin"]} user={user}>
               <AdminPanel />
             </RoleRoute>
           }
@@ -77,6 +79,19 @@ const AppRoutes = () => {
             <ComplaintDetail />
           </ProtectedRoute>
         } />
+        <Route path="/change-password" element={
+          <ProtectedRoute>
+
+            <ChangePassword />
+          </ProtectedRoute>
+        } />
+        <Route path="/forgot-password" element={
+          <PublicRoute>
+
+            <ForgotPassword />
+          </PublicRoute>
+        } />
+
       </Routes>
     </>
   );

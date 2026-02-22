@@ -28,16 +28,16 @@ const Navbar = () => {
     student: [
       { name: "Dashboard", path: "/user-dashboard" },
       { name: "My Complaints", path: "/complaints" },
-      // { name: "New Complaint", path: "/create" },
+      { name: "Change Password", path: "/change-password" },
     ],
     admin: [
-      { name: "Admin Panel", path: "/admin" },
-      { name: "All Complaints", path: "/all" },
-      { name: "Departments", path: "/departments" },
-      { name: "Users", path: "/users" },
+      { name: "Change Password", path: "/change-password" },
+      // { name: "All Complaints", path: "/all" },
+      // { name: "Departments", path: "/departments" },
+      // { name: "Users", path: "/users" },
     ],
-    staff: [
-      { name: "Assigned Complaints", path: "/assigned" },
+    "super admin": [
+      { name: "Change Password", path: "/change-password" }
     ],
   };
   // console.log("Navbar Rendered. User:", user);

@@ -26,3 +26,30 @@ export const loginUser = async (formData) => {
     throw error;
   }
 }
+export const changePasswordApi = async (currentPassword, newPassword) => {
+  try {
+    const data = await apiRequest({
+      method: "PUT",
+      url: `/auth/change-password`,
+      data: { currentPassword, newPassword },
+    });
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+export const forgotPasswordApi = async (email) => {
+  try {
+    const data = await apiRequest({
+      method: "POST",
+      url: `/auth/forgot-password`,
+      data: { email },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}

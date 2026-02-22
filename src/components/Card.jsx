@@ -4,9 +4,9 @@ import userContext from "../context/UserContext";
 const Card = ({ title, body, status, category, complaintId, deleteComplaint }) => {
   const { user } = useContext(userContext);
   const statusStyles = {
-    fulfilled: "bg-emerald-100 text-emerald-800 border border-emerald-200",
-    pending: "bg-red-100 text-red-800 border border-red-200",
-    active: "bg-amber-100 text-amber-800 border border-amber-200",
+    "fulfilled": "bg-emerald-100 text-emerald-800 border border-emerald-200",
+    "in progress": "bg-red-100 text-red-800 border border-red-200",
+    "active": "bg-amber-100 text-amber-800 border border-amber-200",
   };
   //transition hover:shadow-xl hover:-translate-y-1
   return (
@@ -42,7 +42,7 @@ const Card = ({ title, body, status, category, complaintId, deleteComplaint }) =
             View
           </a>
           {console.log("User Role in Card:", user?.role)}
-          {!(user?.role === "Admin" || user?.role === "Staff") ? <button
+          {!(user?.role === "Super Admin" || user?.role === "Admin") ? <button
             // navigate to edit complaint page
             onClick={() => {
               let id = complaintId;
