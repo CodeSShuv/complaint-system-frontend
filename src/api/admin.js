@@ -56,3 +56,16 @@ export const deleteUserById = async (userId) => {
     throw error;
   }
 }
+
+export const fetchStats = async () => {
+  try {
+    const data = await apiRequest({
+      method: "GET",
+      url: `${API_BASE_URL}/get-stats`,
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}

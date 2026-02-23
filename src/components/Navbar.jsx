@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import userContext from "../context/UserContext";
 import alertContext from "../context/AlertContext";
 import Cookies from "js-cookie";
-
+import { LogIn, UserPlus, LogOut, LayoutDashboard, MessageCircle } from "lucide-react";
 const Navbar = () => {
   const { user, setUser } = useContext(userContext);
   const alertContextOptions = useContext(alertContext);
@@ -22,12 +22,21 @@ const Navbar = () => {
   }, [user]);
   const links = {
     visitor: [
-      { name: "login", path: '/login' },
-      { name: "register", path: "/register" }
+      { name: "login", path: '/login', component: (<LogIn size={20} />) },
+      {
+        name: "register", path: "/register",
+        component: <UserPlus size={20} />
+      }
     ],
     student: [
-      { name: "Dashboard", path: "/user-dashboard" },
-      { name: "My Complaints", path: "/complaints" },
+      {
+        name: "Dashboard", path: "/user-dashboard",
+        component: <LayoutDashboard size={20} />
+      },
+      {
+        name: "My Complaints", path: "/complaints",
+        component: <MessageCircle size={20} />
+      },
       { name: "Change Password", path: "/change-password" },
     ],
     admin: [
@@ -47,11 +56,14 @@ const Navbar = () => {
         <div className="font-bold text-lg">ComplaintMS</div>
         <div className="flex gap-4">
           {links[user != null ? user.role.toLowerCase() : 'visitor']?.map((link, index) => (
-            <NavLink key={index} to={link.path}>
-              {link.name}
+            <NavLink key={index} to={link.path} title={link.name}>
+              {link.component}
+              {/* {link.name} */}
             </NavLink>
           ))}
-          <button className="text-red-300" onClick={handleLogout}>Logout</button>
+          {user && <button className="text-red-300" onClick={handleLogout} title="Logout">
+            <LogOut />
+          </button>}
         </div>
       </nav>
     </>

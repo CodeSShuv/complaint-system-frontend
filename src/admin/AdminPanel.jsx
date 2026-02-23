@@ -14,7 +14,7 @@ export default function AdminPanel() {
   const renderPage = () => {
     switch (activePage) {
       case "dashboard":
-        return <Dashboard />;
+        return <Dashboard user={user} />;
       case "staff":
         return <ManageStaff />;
       case "complaints":

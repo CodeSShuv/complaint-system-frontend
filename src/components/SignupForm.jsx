@@ -47,9 +47,10 @@ const SignupForm = ({ registerUser }) => {
       });
       navigate("/login");
       console.log(data)
+      setError("User Registered Successfully. Please Check Your email to verify.");
       setAlertOptions({ type: "success", msg: data.msg });
     } catch (err) {
-      setError(err.response?.data?.message || "Registration failed");
+      setError(err.msg || "Registration failed");
       setAlertOptions({ type: "error", msg: "Registration Failed" });
     } finally {
       setLoading(false);

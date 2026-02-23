@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
-import { XCircle } from "lucide-react";
-
-export default function NotFound() {
+import { ShieldAlert } from "lucide-react";
+import { useContext } from "react";
+import userContext from "../context/UserContext";
+export default function Unauthorized() {
+  const { user } = useContext(userContext);
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 via-slate-200 to-slate-300 p-6">
 
@@ -9,25 +11,24 @@ export default function NotFound() {
 
         <div className="flex justify-center">
           <div className="bg-red-100 p-4 rounded-full">
-            <XCircle size={40} className="text-red-600" />
+            <ShieldAlert size={40} className="text-red-600" />
           </div>
         </div>
 
-        <h1 className="text-4xl font-bold text-slate-800">
-          404 - Page Not Found
+        <h1 className="text-3xl font-bold text-slate-800">
+          403 - Unauthorized
         </h1>
 
         <p className="text-slate-600">
-          Oops! The page you are looking for does not exist.
+          You do not have permission to access this page.
         </p>
 
-        {/* <Link
-          to="/"
+        <Link
+          to={`${user?.role === "Student" ? "/user-dashboard" : "/admin"}`}
           className="inline-block px-6 py-3 bg-slate-800 text-white rounded-xl hover:bg-slate-900 transition shadow-md"
         >
-          Back to Home
-        </Link> */}
-
+          Back to {user?.role === "Student" ? "user-dashboard" : "Admin Panel"}
+        </Link>
       </div>
     </div>
   );

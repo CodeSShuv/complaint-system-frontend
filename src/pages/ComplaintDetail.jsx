@@ -81,9 +81,13 @@ export default function ComplaintDetail() {
 
           {/* Student Info */}
           <div className="mt-6 border-t border-slate-200 pt-4 text-sm text-slate-600">
-            <p><span className="font-medium">Student:</span> {complaint.userId.firstname + " " + complaint.userId.lastname}</p>
-            <p><span className="font-medium">Email:</span> {complaint.userId.email}</p>
-            <p><span className="font-medium">Date:</span> {complaint.createdAt}</p>
+            {complaint.userId === null ? "User doesnot exist" :
+              <>
+
+                <p><span className="font-medium">Student:</span>  {(complaint?.userId?.firstname + " " + complaint?.userId?.lastname)}</p>
+                <p><span className="font-medium">Email:</span> {complaint.userId.email}</p>
+                <p><span className="font-medium">Date:</span> {complaint.createdAt}</p>
+              </>}
 
           </div>
 

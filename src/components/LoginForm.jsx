@@ -108,6 +108,7 @@ const LoginForm = () => {
         >
           Create one
         </Link>
+        <br />
         <Link
           to={"/forgot-password"}
           className="text-slate-800 font-medium hover:underline ml-4"

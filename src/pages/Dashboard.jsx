@@ -33,17 +33,17 @@ const Dashboard = () => {
   }
   return (
     <div className="min-h-screen flex flex-col p-4 sm:p-6 gap-6 bg-gray-50">
-      {/* Profile Section */}
+
       <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 w-full border-b border-gray-200 pb-6">
 
-        {/* Profile Image */}
-        <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden">
-          <img
-            className="w-full h-full object-cover"
-            src="/user.png"
-            alt="User"
-          />
-        </div>
+        {/*
+      <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden">
+        <img
+          className="w-full h-full object-cover"
+          src="/user.png"
+          alt="User"
+        />
+      </div> */}
 
         {/* User Info */}
         <div className="text-center sm:text-left">
@@ -98,7 +98,7 @@ const Dashboard = () => {
       <div className="w-full">
         <ComposeComplain />
       </div>
-    </div>
+    </div >
 
 
   );

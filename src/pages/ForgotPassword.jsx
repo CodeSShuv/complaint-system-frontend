@@ -4,10 +4,10 @@ import { forgotPasswordApi } from "../api/auth";
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     if (!email) {
       setMessage("Please enter your email");
       return;
@@ -15,10 +15,13 @@ export default function ForgotPassword() {
     try {
       const res = await forgotPasswordApi(email);
       setMessage(res.msg);
+
     } catch (error) {
       setMessage(error.msg);
-    }
+    } finally {
 
+      setLoading(false);
+    }
 
   };
 
@@ -42,8 +45,10 @@ export default function ForgotPassword() {
         <button
           type="submit"
           className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+          disabled={loading}
         >
-          Send Reset Link
+          {loading ? "Sending..." : "Send Reset Link"}
+
         </button>
 
         {message && <p className="mt-4 text-center text-red-600">{message}</p>}

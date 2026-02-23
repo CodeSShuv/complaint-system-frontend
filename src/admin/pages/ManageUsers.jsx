@@ -25,7 +25,8 @@ export default function ManageUsers() {
     fetchUsers();
   }, []);
   const deleteUser = async (userId) => {
-    if (userId === userState.user._id) {
+
+    if (userId === userState.user.userId) {
       setAlertOptions({
         msg: "You cannot delete your own account.",
         type: "error",

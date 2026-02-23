@@ -1,5 +1,5 @@
-import { useState } from "react";
-
+import { useState, useContext } from "react";
+import userContext from "../../context/UserContext";
 export default function SidePanel({
   activePage,
   setActivePage,
@@ -7,7 +7,7 @@ export default function SidePanel({
   setSidebarOpen,
 }) {
   const [collapsed, setCollapsed] = useState(false);
-
+  const { user } = useContext(userContext);
   const menu = [
     {
       key: "dashboard",
@@ -22,12 +22,12 @@ export default function SidePanel({
     },
     {
       key: "staff",
-      label: "Manage Staff",
+      label: "Create Admin",
       icon: "👥",
     },
     {
       key: "user",
-      label: "Manage User",
+      label: "Manage Users",
       icon: "👥",
     }
   ];
@@ -71,8 +71,11 @@ export default function SidePanel({
 
         {/* Menu */}
         <nav className="flex-1 mt-4">
-          {menu.map((item) => (
-            <button
+          {menu.map((item) => {
+            if (item.key === "staff" && user.role !== "Super Admin") {
+              return null; // hide "Create Admin" from non-Super Admins
+            }
+            return <button
               key={item.key}
               onClick={() => {
                 setActivePage(item.key);
@@ -90,7 +93,7 @@ export default function SidePanel({
               <span className="text-lg">{item.icon}</span>
               {!collapsed && <span>{item.label}</span>}
             </button>
-          ))}
+          })}
         </nav>
       </aside>
     </>

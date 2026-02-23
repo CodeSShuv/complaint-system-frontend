@@ -15,6 +15,7 @@ import VerifyEmail from "../pages/EmailVerificationPage";
 import ComplaintDetail from "../pages/ComplaintDetail";
 import ChangePassword from "../pages/ChangePassword";
 import ForgotPassword from "../pages/ForgotPassword";
+import Unauthorized from "../pages/Unauthorized";
 const AppRoutes = () => {
   const { user } = useContext(userContext);
   // if (user === null) {
@@ -90,6 +91,12 @@ const AppRoutes = () => {
 
             <ForgotPassword />
           </PublicRoute>
+        } />
+        <Route path="/unauthorized" element={
+          <Unauthorized>
+
+            <ForgotPassword />
+          </Unauthorized>
         } />
 
       </Routes>

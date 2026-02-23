@@ -4,7 +4,7 @@ import StaffForm from "../components/StaffForm";
 export default function ManageStaff() {
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-semibold text-slate-800">Manage Staff</h1>
+      <h1 className="text-3xl font-semibold text-slate-800">Create Admin</h1>
       <StaffForm />
       {/* <StaffList /> */}
     </div>
