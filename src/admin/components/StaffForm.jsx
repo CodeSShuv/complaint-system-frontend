@@ -38,13 +38,13 @@ export default function StaffForm() {
       <input type="text" name="lastname" placeholder="Last Name" value={formData.lastname} onChange={handleChange} required className="w-full px-4 py-3 rounded-xl bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-600 transition" />
       <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required className="w-full px-4 py-3 rounded-xl bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-600 transition" />
       <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required className="w-full px-4 py-3 rounded-xl bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-600 transition" />
-      {/* <select name="departmentId" value={formData.departmentId} onChange={handleChange} required className="w-full px-4 py-3 rounded-xl bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-600 transition">
+      <select name="departmentId" value={formData.departmentId} onChange={handleChange} required className="w-full px-4 py-3 rounded-xl bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-600 transition">
         <option value="">Select Department</option>
         <option value="Library">Library</option>
         <option value="Accounts">Accounts</option>
         <option value="Cafeteria">Cafeteria</option>
         <option value="Administration">Administration</option>
-      </select> */}
+      </select>
       <button type="submit" disabled={loading} className="w-full bg-slate-800 text-white py-3 rounded-xl font-medium hover:bg-slate-900 transition shadow-md">{loading ? "Creating..." : "Create Staff"}</button>
     </form>
   );

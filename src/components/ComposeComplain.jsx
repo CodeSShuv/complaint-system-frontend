@@ -3,18 +3,18 @@ import { postComplain } from "../api/complain";
 
 export default function ComposeComplain() {
   const [open, setOpen] = useState(false);
-  const [category, setCategory] = useState("");
+  const [department, setdepartment] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     // replace with real submit logic
-    let model = { category: category, subject: subject, message: message };
+    let model = { department: department, subject: subject, message: message };
     try {
 
       await postComplain(model);
-      setCategory("");
+      setdepartment("");
       setSubject("");
       setMessage("");
       setOpen(false);
@@ -48,18 +48,19 @@ export default function ComposeComplain() {
           onSubmit={handleSubmit}
           className="flex-1 overflow-y-auto px-4 py-3 space-y-4"
         >
-          {/* Category */}
+          {/* department */}
           <div>
             <label className="block text-xs font-semibold text-gray-700">
-              Category
+              department
             </label>
             <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
+              value={department}
+              onChange={(e) => setdepartment(e.target.value)}
               required
               className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-300 focus:outline-none"
             >
-              <option value="">Select category</option>
+              <option value="">Select department</option>
+              { }
               <option value="Teaching Quality">Teaching Quality</option>
               <option value="Examination / Results">Examination / Results</option>
               <option value="Classroom Facilities">Classroom Facilities</option>
@@ -99,7 +100,7 @@ export default function ComposeComplain() {
           <button
             type="button"
             onClick={() => {
-              setCategory("");
+              setdepartment("");
               setSubject("");
               setMessage("");
             }}
