@@ -43,15 +43,16 @@ export const postComplain = async (complainData) => {
 }
 
 export const getComplainCounts = async () => {
+  console.log("hello from ffrontend");
   try {
     const data = await apiRequest({
       method: "GET",
       url: "/complaint/counts",
     });
-    // console.log("Fetched Complain Counts:", data);
+    console.log("Fetched Complain Counts:", data);
     return data;
   } catch (error) {
-    console.log(error);
+   throw (error);
     return null;
   }
 }

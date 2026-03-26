@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import userContext from "../context/UserContext";
 
-const Card = ({ title, body, status, category, complaintId, deleteComplaint }) => {
+const Card = ({ title, body, status, department, complaintId, deleteComplaint }) => {
   const { user } = useContext(userContext);
   const statusStyles = {
     "fulfilled": "bg-emerald-100 text-emerald-800 border border-emerald-200",
@@ -20,7 +20,7 @@ const Card = ({ title, body, status, category, complaintId, deleteComplaint }) =
             {status}
           </span>
           <span className="px-3 py-1 text-xs font-semibold text-gray-600 bg-gray-100 rounded-full">
-            {category}
+            {department}
           </span>
         </div>
 

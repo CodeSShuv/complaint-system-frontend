@@ -99,7 +99,7 @@ const View = () => {
                 title={item.subject}
                 body={item.message}
                 role={item.role}
-                category={item.category}
+                department={item.deptId.name}
                 complaintId={item._id}
                 deleteComplaint={deleteComplaint}
               />

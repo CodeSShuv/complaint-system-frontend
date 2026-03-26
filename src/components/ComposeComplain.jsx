@@ -1,16 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { postComplain } from "../api/complain";
-
+import { fetchDepartments } from "../api/department.js";
 export default function ComposeComplain() {
   const [open, setOpen] = useState(false);
   const [department, setdepartment] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
-
+  const [deptList,setDeptList] = useState([]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     // replace with real submit logic
-    let model = { department: department, subject: subject, message: message };
+    let model = {  subject: subject, message: message,deptId :department };
     try {
 
       await postComplain(model);
@@ -24,6 +24,15 @@ export default function ComposeComplain() {
 
     // clear after send (optional)
   };
+  const handleFetchDepartment =  async ()=>{
+    let res = await fetchDepartments();
+    setDeptList(res);
+  }
+  useEffect(()=>{
+    if(deptList){
+      handleFetchDepartment();
+    }
+  },[]);
 
   return <div className="fixed bottom-4 right-4 left-4 md:left-auto md:w-[420px] z-50">
     {open ? (
@@ -60,14 +69,12 @@ export default function ComposeComplain() {
               className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-300 focus:outline-none"
             >
               <option value="">Select department</option>
-              { }
-              <option value="Teaching Quality">Teaching Quality</option>
-              <option value="Examination / Results">Examination / Results</option>
-              <option value="Classroom Facilities">Classroom Facilities</option>
-              <option value="Library Services">Library Services</option>
-              <option value="Technical">Technical</option>
-              <option value="Fees & Administration">Fees & Administration</option>
-              <option value="Misconduct">Misconduct / Disciplinary</option>
+              { deptList?.map((dep)=>{
+              return (
+            <option value={dep.name}>{dep.name}</option>
+          )
+              }) }
+             
             </select>
           </div>
 

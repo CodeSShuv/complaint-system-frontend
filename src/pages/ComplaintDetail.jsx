@@ -12,11 +12,15 @@ export default function ComplaintDetail() {
   const { user } = useContext(userContext);
   const [complaint, setComplaint] = useState(null);
   useEffect(() => {
+    console.log(complaint)
     fetchComplainById(complaintId).then((data) => {
       if (data) {
+         console.log(data)
         setComplaint(data);
         return;
       }
+    }).catch((e)=>{
+      console.log(e)
     });
   }, [complaintId]);
 
@@ -31,7 +35,7 @@ export default function ComplaintDetail() {
         msg: "Status Updated successfully.",
         type: "success",
       });
-
+     
       setComplaint((prev) => ({ ...prev, status: res.status }));
       setRemarks("");
     } catch (error) {
@@ -71,7 +75,7 @@ export default function ComplaintDetail() {
             <span>
 
               <span className="self-start md:self-auto bg-slate-200 text-slate-700 text-sm px-3 py-1 rounded-full font-medium">
-                {complaint.category}
+                {complaint.deptId.name}
               </span>
               <span className={`self-start md:self-auto ${statusStyles[complaint.status]} text-sm px-3 py-1 rounded-full font-medium`}>
                 {complaint.status}
@@ -84,7 +88,7 @@ export default function ComplaintDetail() {
             {complaint.userId === null ? "User doesnot exist" :
               <>
 
-                {user.role === "Super Admin" ? <><p><span className="font-medium">Student:</span>  {(complaint?.userId?.firstname + " " + complaint?.userId?.lastname)}</p><p><span className="font-medium">Email:</span> {complaint.userId.email}</p></> : ""}
+                {user.role === "Super Admin"|| user.role ==="Student" ? <><p><span className="font-medium">Student:</span>  {(complaint?.userId?.firstname + " " + complaint?.userId?.lastname)}</p><p><span className="font-medium">Email:</span> {complaint.userId.email}</p></> : ""}
                 <p><span className="font-medium">Date:</span> {complaint.createdAt}</p>
               </>}
 
@@ -122,7 +126,7 @@ export default function ComplaintDetail() {
                 <option>Pending</option>
                 <option>In Progress</option>
                 <option>Resolved</option>
-                <option>Rejected</option>
+                {/* <option>Rejected</option> */}
               </select>
             </div>
 

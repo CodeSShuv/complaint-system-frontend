@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { fetchStats } from "../../api/admin";
 import alertContext from "../../context/AlertContext";
+import { addDepartment } from "../../api/department.js";
 export default function Dashboard({ user }) {
   const { setAlertOptions } = useContext(alertContext);
   const [stats, setStats] = useState({
@@ -24,8 +25,21 @@ export default function Dashboard({ user }) {
   //   activeComplaints: 4,
   //   totalUsers: 120,
   // };
-  const addDepartment = async () => {
-
+  const handleAddDepartment = async () => {
+    try{
+  let res =  await addDepartment({depName: departmentName});
+ 
+   setAlertOptions({
+    msg: "Department Created",
+    type:"success" 
+   })
+    }catch(e){
+      setAlertOptions({
+        msg:e.msg,
+        type:"error"
+      })
+    }
+   
   }
   useEffect(() => {
     fetchStats().then((data) => {
@@ -33,8 +47,8 @@ export default function Dashboard({ user }) {
         return
 
       } else {
-        setStats(data);
         console.log("Fetched stats:", data);
+        setStats(data);
       }
     }).catch((e) => {
       setAlertOptions({
@@ -67,7 +81,8 @@ export default function Dashboard({ user }) {
                 Cancel
               </button>
 
-              <button className="bg-slate-800 text-white px-4 py-2 rounded-lg">
+              <button className="bg-slate-800 text-white px-4 py-2 rounded-lg"
+              onClick={handleAddDepartment}>
                 Create
               </button>
             </div>
@@ -89,7 +104,7 @@ export default function Dashboard({ user }) {
           {/* Admin Info */}
           <div className="bg-white/70 backdrop-blur-md px-5 py-3 rounded-xl shadow border border-white/30">
             <p className="text-sm text-slate-500">Logged in as</p>
-            {console.log(user?.firstName)}
+            {/* {console.log(user?.firstName)} */}
             <p className="font-semibold text-slate-800">
               {user?.firstName} {user?.lastName}
             </p>

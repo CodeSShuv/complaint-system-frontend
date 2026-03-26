@@ -1,4 +1,4 @@
-import { apiRequest } from "../services/services/apiClient";
+import  apiRequest  from "../services/apiClient.js";
 export const fetchDepartments = async () => {
   try {
     const data = await apiRequest(
@@ -13,18 +13,21 @@ export const fetchDepartments = async () => {
   }
 }
 
-export const addDepartment = async (fomrData) => {
+export const addDepartment = async (formData) => {
+
   try {
     const data = await apiRequest(
       {
         method: "POST",
         url: "/department/add",
         data:
-          FormData
+          formData
 
       }
-    )
+    );
+    
+    return data;
   } catch (error) {
-
+    throw error;
   }
 }
